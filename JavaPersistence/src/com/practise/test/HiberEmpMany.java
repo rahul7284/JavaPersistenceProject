@@ -27,7 +27,7 @@ public class HiberEmpMany {
 	public static void main(String[] args) {
 
 		Configuration cfg = new AnnotationConfiguration().configure("hi.cfg.xml");
-		System.out.println("customer");
+		System.out.println("customer changed for Git");
 		SessionFactory sf = cfg.buildSessionFactory();
 		Session session = sf.openSession();
 		 Transaction txn = session.beginTransaction();
