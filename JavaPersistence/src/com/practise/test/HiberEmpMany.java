@@ -32,7 +32,8 @@ public class HiberEmpMany {
 		SessionFactory sf = cfg.buildSessionFactory();
 		Session session = sf.openSession();
 		 Transaction txn = session.beginTransaction();
-		//getData(session);
+		getData(session);
+		System.out.println("it is now showing data");
 		Employee emp = new Employee();
 		Address add = new Address();
 		Address add1 = new Address();
