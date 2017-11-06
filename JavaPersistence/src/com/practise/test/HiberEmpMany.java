@@ -29,6 +29,11 @@ public class HiberEmpMany {
 		Configuration cfg = new AnnotationConfiguration().configure("hi.cfg.xml");
 		System.out.println("customer changed for Git");
 		System.out.println("changes made from different branch");
+		
+		for (int i = 0; i < 2; i++) {
+
+			System.out.println("New Local Branch");
+		}
 		SessionFactory sf = cfg.buildSessionFactory();
 		Session session = sf.openSession();
 		 Transaction txn = session.beginTransaction();
