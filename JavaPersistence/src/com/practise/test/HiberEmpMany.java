@@ -16,7 +16,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.practise.UserAttributesModel;
 import com.practise.UserLoginModel;
@@ -39,56 +43,64 @@ public class HiberEmpMany {
 		 Transaction txn = session.beginTransaction();
 		getData(session);
 		System.out.println("it is now showing data");
-		Employee emp = new Employee();
-		Address add = new Address();
-		Address add1 = new Address();
-		
-		emp.setFirstName("rashmi");
-		emp.setLastName("pyasi");
-		add.setLineone("shimla");
-		add.setLinelast("himachal");
-		add1.setLineone("kuthla");
-		add1.setLinelast("katni");
-		List<Address> addlist = new ArrayList<Address>();
-		addlist.add(add1);
-		addlist.add(add);
-		emp.setAddress(addlist);
-		add.setEmployee(emp);
-		add1.setEmployee(emp);
-		session.save(emp);
-		 session.save(add); 
-		 session.save(add1);
-		 session.flush();
-		 txn.commit();
+		//insertData(session, txn);
 
 	}
 
+	private static void insertData(Session session, Transaction txn) {
+		Employee emp = new Employee();
+		Address add = new Address();
+		Address add1 = new Address();
+		Projects proj1 = new Projects();
+		Projects proj2 = new Projects();
+		emp.setFirstName("rahul");
+		emp.setLastName("kumar");
+		add.setLineone("jabalpur");
+		add.setLinelast("mp");
+		add1.setLineone("manjari");
+		add1.setLinelast("pune");
+		proj1.setProjectName("mtp");
+		proj1.setClientName("mumbaipolice");
+		proj1.setTechName("java");
+		proj2.setProjectName("atms");
+		proj2.setClientName("xrbia");
+		proj2.setTechName("java");
+		List<Address> addlist = new ArrayList<Address>();
+		List<Projects> projectList = new ArrayList<Projects>();
+		addlist.add(add1);
+		addlist.add(add);
+		projectList.add(proj1);
+		projectList.add(proj2);
+		emp.setAddress(addlist);
+		emp.setProjects(projectList);
+		add.setEmployee(emp);
+		add1.setEmployee(emp);
+		proj1.setEmployee(emp);
+		proj2.setEmployee(emp);
+		session.save(emp);
+		 session.save(add); 
+		 session.save(add1);
+		 session.save(proj1); 
+		 session.save(proj2);
+		
+		 session.flush();
+		 txn.commit();
+	}
+
+	@SuppressWarnings("static-access")
 	private static void getData(Session session) {
 
-		Customer cust = new Customer();
-		CustomerAddress customerAdd = new CustomerAddress();
-		/*
-		 * userLogin=(UserLoginModel)
-		 * session.createCriteria(UserLoginModel.class).add(Restrictions.eq(
-		 * "userName", "m")).add(Restrictions.eq("userPassword",
-		 * "p")).uniqueResult(); System.out.println(userLogin.getId()); Long
-		 * login_id = userLogin.getId(); userattr=(UserAttributesModel)
-		 * session.createCriteria(UserAttributesModel.class).add(Restrictions.eq
-		 * ("userLoginModel.id",login_id)).uniqueResult();
-		 */
-		// System.out.println(userattr.getFirstName()+"
-		// "+userattr.getUserLoginModel().getUserName());
-
-		Criteria criteria = session.createCriteria(CustomerAddress.class);
-		criteria.createAlias("customer", "customeraddressalias", org.hibernate.sql.JoinType.INNER_JOIN);
-		criteria.add(Restrictions.eq("customeraddressalias.id", 6));
+		
+		Criteria criteria = session.createCriteria(Address.class,"address");
+		criteria.createAlias("address.employee", "emp");
+		criteria.add(Restrictions.eqOrIsNull("id", 13)).setFetchMode("emp", FetchMode.JOIN);
+		
 		System.out.println(criteria.list());
 
 		for (Iterator iterator = criteria.list().iterator(); iterator.hasNext();) {
-			CustomerAddress customerAddress = (CustomerAddress) iterator.next();
-
-			System.out.print(customerAddress + " ");
-
+			Address customerAddress =   (Address) iterator.next();
+			System.out.println(customerAddress);
+			
 		}
 		// customerAdd=(CustomerAddress) criteria.uniqueResult();
 

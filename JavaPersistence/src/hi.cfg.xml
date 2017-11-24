@@ -12,13 +12,13 @@
   <property name="hibernate.connection.username">root</property> 
   <property name="hibernate.connection.password"></property>
   <property name="dialect">org.hibernate.dialect.MySQLDialect</property> 
-  <property name="hbm2ddl.auto">create</property> 
+  <property name="hbm2ddl.auto">update</property> 
   <property name="show_sql">true</property> 
     <!-- <mapping class="com.practise.UserLoginModel" /> 
    <mapping class="com.practise.UserAttributesModel" />  -->
     <mapping class="com.practise.test.Address" /> 
    <mapping class="com.practise.test.Employee" /> 
-   
+   <mapping class="com.practise.test.Projects" /> 
     
   </session-factory>
 
